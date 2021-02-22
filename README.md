@@ -1,3 +1,3 @@
 # banking_system
 
-Simple banking system with SQL.
+Simple banking system with database.
