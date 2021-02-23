@@ -1,3 +1,3 @@
-# banking_system
+# banking-system
 
 Simple banking system with database.
