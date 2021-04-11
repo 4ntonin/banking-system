@@ -110,34 +110,35 @@ class Bank:
         self.conn.commit()
 
 
-User = Bank()
-menu = 1
-User.drop_table()
-User.create_table()
-while menu != 0:
-    menu = int(input("""
+if __name__ == '__main__':
+    User = Bank()
+    menu = 1
+    User.drop_table()
+    User.create_table()
+    while menu != 0:
+        menu = int(input("""
 1. Create an account
 2. Log into account
 0. Exit
 """))
-    if menu == 1:
-        User.reset_account()
-        print("Your card has been created")
-        print("Your card number:")
-        User.set_card_number()
-        print(User.get_card_number())
-        print("Your card PIN:")
-        User.set_card_pin()
-        print(User.get_card_pin())
-        User.add_info()
-    elif menu == 2:
-        card_nb = str(input("Enter your card number: "))
-        card_pin = str(input("Enter your PIN: "))
-        verif = User.verification(card_nb, card_pin)
-        if verif:
-            print("You have successfully logged in!")
-            while menu != 0 and menu != 5:
-                menu = int(input("""
+        if menu == 1:
+            User.reset_account()
+            print("Your card has been created")
+            print("Your card number:")
+            User.set_card_number()
+            print(User.get_card_number())
+            print("Your card PIN:")
+            User.set_card_pin()
+            print(User.get_card_pin())
+            User.add_info()
+        elif menu == 2:
+            card_nb = str(input("Enter your card number: "))
+            card_pin = str(input("Enter your PIN: "))
+            verif = User.verification(card_nb, card_pin)
+            if verif:
+                print("You have successfully logged in!")
+                while menu != 0 and menu != 5:
+                    menu = int(input("""
 1. Balance
 2. Add income
 3. Do transfer
@@ -145,32 +146,32 @@ while menu != 0:
 5. Log out
 0. Exit
 """))
-                if menu == 1:
-                    print("Balance: ", User.get_balance())
-                elif menu == 2:
-                    income = int(input("Enter income: "))
-                    User.add_income(income)
-                    print("Income was added!")
-                elif menu == 3:
-                    transfer_card = str(input("Enter card number: "))
-                    if User.luhn(transfer_card) != list(transfer_card)[-1]:
-                        print("Probably you made a mistake in the card number. Please try again!")
-                    elif not User.transfer_verification(transfer_card):
-                        print("Such a card does not exist.")
-                    elif transfer_card == User.get_card_number():
-                        print("You can't transfer money to the same account!")
-                    else:
-                        transfer_amount = int(input("Enter how much money you want to transfer: "))
-                        if User.get_balance() - transfer_amount < 0:
-                            print("Not enough money!")
+                    if menu == 1:
+                        print("Balance: ", User.get_balance())
+                    elif menu == 2:
+                        income = int(input("Enter income: "))
+                        User.add_income(income)
+                        print("Income was added!")
+                    elif menu == 3:
+                        transfer_card = str(input("Enter card number: "))
+                        if User.luhn(transfer_card) != list(transfer_card)[-1]:
+                            print("Probably you made a mistake in the card number. Please try again!")
+                        elif not User.transfer_verification(transfer_card):
+                            print("Such a card does not exist.")
+                        elif transfer_card == User.get_card_number():
+                            print("You can't transfer money to the same account!")
                         else:
-                            User.transfer(transfer_card, transfer_amount)
-                elif menu == 4:
-                    User.delete_account()
-                    print("The account has been closed!")
-                    menu = 5
-                elif menu == 5:
-                    print("You have successfully logged out!")
-        else:
-            print("Wrong card number or PIN!")
-print("Bye!")
+                            transfer_amount = int(input("Enter how much money you want to transfer: "))
+                            if User.get_balance() - transfer_amount < 0:
+                                print("Not enough money!")
+                            else:
+                                User.transfer(transfer_card, transfer_amount)
+                    elif menu == 4:
+                        User.delete_account()
+                        print("The account has been closed!")
+                        menu = 5
+                    elif menu == 5:
+                        print("You have successfully logged out!")
+            else:
+                print("Wrong card number or PIN!")
+    print("Bye!")
